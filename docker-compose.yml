@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: veera_bonus_backend
+    build: ./Backend
+    ports:
+      - "3052:3052"
+    depends_on:
+      - postgres
+    environment:
+      - PGUSER=postgres
+      - PGPASSWORD=admin123
+      - PGHOST=postgres
+      - PGPORT=5432
+      - PGDATABASE=bonus_proposals
+    networks:
+      - veera_bonus_net
+
+  frontend:
+    container_name: veera_bonus_frontend
+    build: ./Frontend
+    ports:
+      - "8084:80"
+    depends_on:
+      - backend
+    networks:
+      - veera_bonus_net
+
+  hr:
+    container_name: veera_bonus_hr
+    build: ./HR
+    ports:
+      - "8085:80"
+    depends_on:
+      - backend
+    networks:
+      - veera_bonus_net
+
+  postgres:
+    container_name: veera_bonus_postgres
+    image: postgres:13
+    ports:
+      - "5452:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: bonus_proposals
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - veera_bonus_net
+
+volumes:
+  postgres_data:
+
+networks:
+  veera_bonus_net:
+    driver: bridge
+
