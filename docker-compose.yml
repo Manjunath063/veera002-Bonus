@@ -18,7 +18,7 @@ services:
       - veera_bonus_net
 
   frontend:
-    container_name: veera_bonus_frontend
+    container_name: veera_bonus1_frontend
     build: ./Frontend
     ports:
       - "8084:80"
