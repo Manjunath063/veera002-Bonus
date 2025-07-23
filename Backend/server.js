@@ -103,6 +103,6 @@ async function initializeDatabase() {
 // Start server
 initializeDatabase().then(() => {
   app.listen(port, () => {
-    console.log(`Server running at http://13.60.10.12:${port}`);
+    console.log(`Server running at http://16.16.215.28:${port}`);
   });
 });
